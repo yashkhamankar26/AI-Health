@@ -1,0 +1,543 @@
+
+body{
+    font-family: 'Roboto', sans-serif;
+  }
+  /*--------------------------------------------------------------
+  # Navigation Menu
+  --------------------------------------------------------------*/
+  .nav-back{
+    background: linear-gradient(109.6deg, rgb(255, 255, 255) 11.2%, rgb(0, 253, 253) 100.2%);
+    color: #000000;
+  }
+  .navbar-brand{
+    color: #000000;
+  }
+  .navbar-brand:hover{
+    color: #187c0d;
+  }
+  .nav-link{
+    color: #000;
+  }
+  .nav-link:hover{
+    color:#0a0d54;
+  }
+  .navbar-toggler{
+    outline: none!important;
+  }
+  
+     
+   
+  /*--------------------------------------------------------------
+  # Hero Section
+  --------------------------------------------------------------*/
+  #hero {
+      width: 100%;
+      height: 80vh;
+      background: url("bg1.jpg") center center;
+      background-size: cover;
+      position: relative;
+    }
+    
+    #hero .container {
+      padding-top: 80px;
+    }
+    
+    #hero:before {
+      content: "";
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    
+    #hero h1 {
+      margin: 0 0 10px 0;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 56px;
+      color: #fff;
+    }
+    
+    #hero h2 {
+      color: #eee;
+      margin-bottom: 40px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: "Open Sans", sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .main-btn {
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 8px 28px;
+      border-radius: 50px;
+      transition: 0.5s;
+      margin: 10px;
+      border: 2px solid #fff;
+      color: #fff;
+    }
+    
+     .main-btn:hover {
+      background: #11dbcf;
+      border: 2px solid #11dbcf;
+      text-decoration: none;
+      color:#fff;
+    }
+   .form-group .btn-form{
+    background: #11dbcf;
+    border: 2px solid #11dbcf;
+    text-decoration: none;
+    color:#000;
+   }
+   
+   .dropdown:hover .dropdown-menu {
+    display: block;
+}
+  
+#book-appointment img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px; /* Adjust as needed */
+}   
+    .footer {
+        text-align: center;
+        font-size: 0.9rem;
+        background: linear-gradient(109.6deg, #11dbcf, rgb(255, 255, 255) 100.2%);
+      }
+      .footer .btn-back{
+        background: #fff;
+        color: #00d9ff;
+      }
+      .footer .text{
+        color: #000;
+      }
+      
+  /*--------------------------------------------------------------
+  # Doctor Section
+  --------------------------------------------------------------*/
+  .available-doctors-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(120deg, #ffffff 0%, #021c82 100%);
+  }
+  
+  .available-doctors-section h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .tagline {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+  
+  .doctor-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .doctor-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .doctor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .doctor-photo {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .doctor-card h3 {
+    margin: 15px 0 5px;
+    font-size: 18px;
+  }
+  
+  .doctor-card p {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .availability-indicator {
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  
+  .availability-indicator.available {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    animation: pulse 1.5s infinite;
+  }
+  
+  .availability-indicator.busy {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .more-info-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .more-info-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+  }
+  
+
+  /*--------------------------------------------------------------
+  # What we offer
+  --------------------------------------------------------------*/
+
+  section {
+    padding: 60px 0;
+    min-height: 100vh;
+}
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    outline: none;
+}
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}.bg-gray {
+    background-color: #f9f9f9;
+}
+
+.site-heading h2 {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.site-heading h2 span {
+  color:#007bff;
+}
+
+.site-heading h4 {
+  display: inline-block;
+  padding-bottom: 20px;
+  position: relative;
+  text-transform: capitalize;
+  z-index: 1;
+}
+
+.site-heading h4::before {
+  background:#007bff none repeat scroll 0 0;
+  bottom: 0;
+  content: "";
+  height: 2px;
+  left: 50%;
+  margin-left: -25px;
+  position: absolute;
+  width: 50px;
+}
+
+.site-heading {
+  margin-bottom: 60px;
+  overflow: hidden;
+  margin-top: -5px;
+}
+
+.carousel-shadow .owl-stage-outer {
+  margin: -15px -15px 0;
+  padding: 15px;
+}
+
+.we-offer-area .our-offer-carousel .owl-dots .owl-dot span {
+  background: #ffffff none repeat scroll 0 0;
+  border: 2px solid;
+  height: 15px;
+  margin: 0 5px;
+  width: 15px;
+}
+
+.we-offer-area .our-offer-carousel .owl-dots .owl-dot.active span {
+  background: #00a01d none repeat scroll 0 0;
+  border-color: #00a01d;
+}
+
+.we-offer-area .item {
+  background: #ffffff none repeat scroll 0 0;
+  border-left: 2px solid #00a01d;
+  -moz-box-shadow: 0 0 10px #cccccc;
+  -webkit-box-shadow: 0 0 10px #cccccc;
+  -o-box-shadow: 0 0 10px #cccccc;
+  box-shadow: 0 0 10px #cccccc;
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.we-offer-area.text-center .item {
+  background: #ffffff none repeat scroll 0 0;
+  border: medium none;
+  padding: 67px 40px 64px;
+}
+
+.we-offer-area.text-center .item i {
+  background: #007bff none repeat scroll 0 0;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 40px;
+  height: 80px;
+  line-height: 80px;
+  position: relative;
+  text-align: center;
+  width: 80px;
+  z-index: 1;
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+  margin-bottom: 25px;
+}
+
+.we-offer-area.text-center .item i::after {
+  border: 2px solid #007bff;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  content: "";
+  height: 90px;
+  left: -5px;
+  position: absolute;
+  top: -5px;
+  width: 90px;
+  z-index: -1;
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+}
+
+.we-offer-area.item-border-less .item {
+  border: medium none;
+}
+
+.we-offer-area .our-offer-items.less-carousel .equal-height {
+  margin-bottom: 30px;
+}
+
+.we-offer-area .offer-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.we-offer-area.item-border-less .item .number {
+  font-family: "Poppins",sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  opacity: 0.1;
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item,
+.we-offer-area.center-active .single-item:nth-child(2n) .item {
+  background: #4be1ec none repeat scroll 0 0;
+}
+
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item i,
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item h4,
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item p,
+.we-offer-area.center-active .single-item:nth-child(2n) .item i,
+.we-offer-area.center-active .single-item:nth-child(2n) .item h4,
+.we-offer-area.center-active .single-item:nth-child(2n) .item p {
+  color: #ffffff;
+}
+
+.we-offer-area .item i {
+  color: #007bff;
+  display: inline-block;
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.we-offer-area .item h4 {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.we-offer-area .item p {
+  margin: 0;
+}
+
+.we-offer-area .item i,
+.we-offer-area .item h4,
+.we-offer-area .item p {
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+}
+
+.we-offer-area .item::after {
+  background: #007bff none repeat scroll 0 0;
+  content: "";
+  height: 100%;
+  left: -100%;
+  position: absolute;
+  top: 0;
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+  width: 100%;
+  z-index: -1;
+}
+
+.we-offer-area .item:hover::after {
+  left: 0;
+}
+
+.we-offer-area .item:hover i,
+.we-offer-area .item:hover h4,
+.we-offer-area .item:hover p {
+  color: #ffffff !important;
+}
+
+.we-offer-area.text-center .item:hover i::after {
+  border-color: #ffffff !important;
+}
+
+.we-offer-area.text-center .item:hover i {
+  background-color: #ffffff !important;
+  color: #007bff !important;
+}
+
+.we-offer-area.text-left .item i {
+  background: #007bff none repeat scroll 0 0;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 60px;
+  height: 100px;
+  line-height: 100px;
+  margin-bottom: 30px;
+  position: relative;
+  width: 100px;
+  z-index: 1;
+  text-align: center;
+}
+
+.we-offer-area.text-left .item i::after {
+  border: 2px solid #007bff;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  content: "";
+  height: 120px;
+  left: -10px;
+  position: absolute;
+  top: -10px;
+  width: 120px;
+}
+
+/* Chatbot Icon and Iframe Styles */
+#chatbot-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000; /* Ensure it’s on top of other content */
+}
+
+#chatbot-icon {
+  cursor: pointer;
+  font-size: 50px; /* Adjust the icon size as needed */
+  color: #007bff; /* Adjust the color as needed */
+  transition: transform 0.3s ease;
+}
+
+#chatbot-icon:hover {
+  transform: scale(1.1); /* Slightly enlarge the icon on hover */
+}
+
+#chatbot-iframe {
+  display: none; /* Hide iframe initially */
+  position: fixed; /* Use fixed positioning to stay in place */
+  bottom: 0;
+  right: 0;
+  width: 350px; /* Set a fixed width */
+  height: 430px; /* Set a fixed height */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Ensure iframe is above the icon */
+  overflow: hidden; /* Hide any overflow */
+  transition: all 0.3s ease; /* Smooth transition for opening and closing */
+}
+
+#chatbot-iframe iframe {
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove default border */
+}
+
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Adjust size as needed */
+  color: #898484; /* Adjust color as needed */
+  transition: color 0.3s ease;
+}
+
+#close-btn:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+#close-btn i {
+  margin: 0;
+}

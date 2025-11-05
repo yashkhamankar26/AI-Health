@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Chatbot MVP</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --healthcare-primary: #0066cc;
+            --healthcare-secondary: #4a90e2;
+            --healthcare-light: #e8f4fd;
+            --healthcare-success: #28a745;
+            --healthcare-danger: #dc3545;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--healthcare-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .healthcare-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.1);
+            border: 1px solid rgba(0, 102, 204, 0.1);
+        }
+        
+        .btn-healthcare {
+            background: linear-gradient(45deg, var(--healthcare-primary), var(--healthcare-secondary));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-healthcare:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        }
+        
+        .btn-demo {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-demo:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(108, 117, 125, 0.3);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--healthcare-primary);
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        }
+        
+        .chat-container {
+            height: 70vh;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+        }
+        
+        .chat-messages {
+            height: calc(100% - 80px);
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .user-message {
+            background: linear-gradient(45deg, var(--healthcare-primary), var(--healthcare-secondary));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .thinking-indicator {
+            display: none;
+            color: var(--healthcare-secondary);
+            font-style: italic;
+            padding: 10px 0;
+        }
+        
+        .healthcare-icon {
+            color: var(--healthcare-primary);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-message {
+            background: linear-gradient(45deg, var(--healthcare-success), #20c997);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile-first responsive design */
+        @media (max-width: 576px) {
+            /* Small mobile devices */
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            
+            .container-fluid {
+                padding: 0;
+            }
+            
+            .healthcare-card {
+                margin: 5px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 102, 204, 0.1);
+            }
+            
+            .healthcare-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .btn-healthcare, .btn-demo {
+                padding: 14px 20px;
+                font-size: 1rem;
+                border-radius: 12px;
+            }
+            
+            .form-control {
+                padding: 14px 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 8px;
+            }
+            
+            .chat-container {
+                height: calc(var(--vh, 1vh) * 100 - 120px);
+                margin: 5px;
+                border-radius: 10px;
+            }
+            
+            .chat-messages {
+                padding: 15px 10px;
+                height: calc(100% - 70px);
+            }
+            
+            .message-bubble {
+                max-width: 90%;
+                padding: 10px 14px;
+                font-size: 0.95rem;
+                border-radius: 15px;
+                margin-bottom: 12px;
+            }
+            
+            .user-message {
+                border-bottom-right-radius: 4px;
+            }
+            
+            .ai-message {
+                border-bottom-left-radius: 4px;
+            }
+            
+            .message-time {
+                font-size: 0.7rem;
+                margin-top: 4px;
+            }
+            
+            .chat-input-area {
+                padding: 12px 10px;
+            }
+            
+            .chat-input-area .d-flex {
+                gap: 8px;
+            }
+            
+            .chat-input-area input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px 15px;
+            }
+            
+            .chat-input-area button {
+                padding: 12px 16px;
+                min-width: 50px;
+            }
+            
+            .welcome-message {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+            
+            /* Header adjustments for mobile */
+            .healthcare-card .d-flex {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .healthcare-card h4 {
+                font-size: 1.1rem;
+            }
+            
+            #logoutBtn {
+                align-self: center;
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
+            /* Medium mobile devices and small tablets */
+            .healthcare-card {
+                margin: 10px;
+                border-radius: 12px;
+            }
+            
+            .chat-container {
+                height: calc(var(--vh, 1vh) * 100 - 140px);
+                margin: 10px;
+            }
+            
+            .chat-messages {
+                padding: 18px 15px;
+            }
+            
+            .message-bubble {
+                max-width: 85%;
+                padding: 12px 16px;
+            }
+            
+            .chat-input-area {
+                padding: 15px;
+            }
+            
+            .form-control {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .chat-input-area input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 992px) {
+            /* Tablets */
+            .message-bubble {
+                max-width: 80%;
+            }
+            
+            .chat-container {
+                height: 75vh;
+            }
+            
+            .healthcare-card {
+                margin: 15px;
+            }
+        }
+        
+        @media (min-width: 993px) {
+            /* Desktop and larger screens */
+            .message-bubble {
+                max-width: 75%;
+            }
+            
+            .chat-container {
+                height: 70vh;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            /* Touch devices */
+            .btn-healthcare:hover,
+            .btn-demo:hover {
+                transform: none; /* Disable hover animations on touch */
+            }
+            
+            .btn-healthcare:active,
+            .btn-demo:active {
+                transform: scale(0.98);
+                transition: transform 0.1s ease;
+            }
+            
+            .form-control:focus {
+                transform: none;
+            }
+            
+            /* Larger touch targets */
+            button, .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .chat-input-area button {
+                min-height: 48px;
+                min-width: 48px;
+            }
+        }
+        
+        /* Landscape orientation adjustments for mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .chat-container {
+                height: calc(var(--vh, 1vh) * 100 - 100px);
+            }
+            
+            .chat-messages {
+                height: calc(100% - 60px);
+            }
+            
+            .healthcare-card .p-4 {
+                padding: 1rem !important;
+            }
+            
+            .healthcare-icon {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .healthcare-card {
+                border-width: 0.5px;
+            }
+            
+            .message-bubble {
+                border-width: 0.5px;
+            }
+        }
+        
+        /* Accessibility improvements for mobile */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .btn-healthcare:hover,
+            .btn-demo:hover {
+                transform: none;
+            }
+        }
+        
+        /* Dark mode support for mobile */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                color: #ffffff;
+            }
+            
+            .healthcare-card {
+                background: #2d3748;
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+            }
+            
+            .chat-messages {
+                background: #1a202c;
+            }
+            
+            .ai-message {
+                background: #2d3748;
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+            }
+            
+            .form-control {
+                background: #2d3748;
+                border-color: rgba(255, 255, 255, 0.2);
+                color: #ffffff;
+            }
+            
+            .form-control:focus {
+                background: #2d3748;
+                border-color: var(--healthcare-primary);
+                color: #ffffff;
+            }
+            
+            .chat-input-area {
+                background: #2d3748;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .min-vh-100 {
+            min-height: 100vh !important;
+            min-height: calc(var(--vh, 1vh) * 100) !important;
+        }
+        
+        /* Enhanced form validation styles */
+        .form-control.is-invalid {
+            border-color: var(--healthcare-danger);
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .form-control.is-valid {
+            border-color: var(--healthcare-success);
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--healthcare-danger);
+        }
+        
+        .form-control.is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        /* Error message styling improvements */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(45deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+        
+        .alert-success {
+            background: linear-gradient(45deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+        
+        /* Chat error styling */
+        .message-bubble.border-danger {
+            border: 2px solid var(--healthcare-danger) !important;
+            background: #fff5f5 !important;
+        }
+        
+        /* Character count styling */
+        #charCount {
+            transition: color 0.3s ease;
+        }
+        
+        /* Loading states */
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Improved focus states for accessibility */
+        .form-control:focus {
+            outline: none;
+            border-color: var(--healthcare-primary);
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        }
+        
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                
+                <!-- Login View -->
+                <div id="loginView" class="healthcare-card p-3 p-sm-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-heart-pulse healthcare-icon"></i>
+                        <h2 class="text-primary fw-bold">Healthcare Chatbot</h2>
+                        <p class="text-muted">Your AI-powered healthcare assistant</p>
+                    </div>
+                    
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="bi bi-envelope me-2"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" required 
+                                   placeholder="Enter your email address">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-lock me-2"></i>Password
+                            </label>
+                            <input type="password" class="form-control" id="password" name="password" required 
+                                   placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-healthcare text-white">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            </button>
+                            <button type="button" class="btn btn-demo text-white" id="demoBtn">
+                                <i class="bi bi-play-circle me-2"></i>Use Demo Credentials
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="loginError" class="alert alert-danger mt-3 hidden" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <span id="loginErrorMessage"></span>
+                    </div>
+                    
+                    <div id="loginSuccess" class="alert alert-success mt-3 hidden" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <span id="loginSuccessMessage"></span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Chat View -->
+        <div id="chatView" class="hidden">
+            <div class="row g-0">
+                <div class="col-12">
+                    <!-- Header -->
+                    <div class="healthcare-card p-2 p-sm-3 mb-2 mb-sm-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="d-flex align-items-center mb-2 mb-sm-0">
+                                <i class="bi bi-robot text-primary me-2" style="font-size: 1.2rem;"></i>
+                                <h4 class="mb-0 text-primary fs-5 fs-sm-4">Healthcare Assistant</h4>
+                            </div>
+                            <button class="btn btn-outline-secondary btn-sm" id="logoutBtn">
+                                <i class="bi bi-box-arrow-right me-1"></i><span class="d-none d-sm-inline">Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Container -->
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="welcome-message">
+                                <i class="bi bi-chat-heart me-2"></i>
+                                <strong>Welcome to your Healthcare Assistant!</strong><br>
+                                <small>I'm here to help you with healthcare-related questions. How can I assist you today?</small>
+                            </div>
+                        </div>
+                        
+                        <div class="thinking-indicator" id="thinkingIndicator">
+                            <i class="bi bi-three-dots me-2"></i>AI is thinking...
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <div id="chatError" class="alert alert-danger mb-3 hidden" role="alert">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                <span id="chatErrorMessage"></span>
+                            </div>
+                            
+                            <form id="chatForm" class="d-flex gap-2">
+                                <div class="flex-grow-1 position-relative">
+                                    <input type="text" class="form-control" id="messageInput" 
+                                           placeholder="Ask me about healthcare topics..." 
+                                           autocomplete="off" autocapitalize="sentences" required
+                                           maxlength="1000">
+                                    <div class="invalid-feedback" id="messageInputFeedback"></div>
+                                    <small class="text-muted position-absolute" id="charCount" 
+                                           style="bottom: -20px; right: 5px; font-size: 0.75rem;">0/1000</small>
+                                </div>
+                                <button type="submit" class="btn btn-healthcare text-white px-3 px-sm-4" 
+                                        id="sendButton" aria-label="Send message">
+                                    <i class="bi bi-send"></i>
+                                    <span class="d-none d-sm-inline ms-1">Send</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Healthcare Chatbot MVP - Frontend JavaScript Implementation
+        // Task 12: Complete frontend functionality with authentication and chat
+        
+        // Application state
+        let authToken = null;
+        let isProcessing = false;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Healthcare Chatbot MVP loaded');
+            initializeApp();
+            setupMobileOptimizations();
+        });
+        
+        // Initialize application
+        function initializeApp() {
+            setupEventListeners();
+            showLoginView();
+        }
+        
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Demo button functionality
+            document.getElementById('demoBtn').addEventListener('click', handleDemoCredentials);
+            
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Chat form submission
+            document.getElementById('chatForm').addEventListener('submit', handleChatMessage);
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            
+            // Enter key handling for chat input
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleChatMessage(e);
+                }
+            });
+            
+            // Character count and real-time validation for message input
+            document.getElementById('messageInput').addEventListener('input', function(e) {
+                updateCharCount();
+                validateMessageInput();
+            });
+            
+            // Real-time validation for login fields
+            document.getElementById('email').addEventListener('blur', function(e) {
+                validateEmailField();
+            });
+            
+            document.getElementById('password').addEventListener('blur', function(e) {
+                validatePasswordField();
+            });
+            
+            // Clear validation on focus
+            document.getElementById('email').addEventListener('focus', function(e) {
+                clearValidationState('email');
+            });
+            
+            document.getElementById('password').addEventListener('focus', function(e) {
+                clearValidationState('password');
+            });
+            
+            document.getElementById('messageInput').addEventListener('focus', function(e) {
+                clearValidationState('messageInput');
+                hideError('chatError');
+            });
+        }
+        
+        // Character count functionality
+        function updateCharCount() {
+            const messageInput = document.getElementById('messageInput');
+            const charCount = document.getElementById('charCount');
+            const currentLength = messageInput.value.length;
+            
+            charCount.textContent = `${currentLength}/1000`;
+            
+            if (currentLength > 900) {
+                charCount.style.color = '#dc3545'; // Red warning
+            } else if (currentLength > 800) {
+                charCount.style.color = '#ffc107'; // Yellow warning
+            } else {
+                charCount.style.color = '#6c757d'; // Normal gray
+            }
+        }
+        
+        // Real-time validation functions
+        function validateEmailField() {
+            const email = document.getElementById('email').value.trim();
+            
+            if (!email) {
+                return; // Don't show error for empty field on blur
+            }
+            
+            if (!validateEmail(email)) {
+                showFieldError('email', 'Please enter a valid email address');
+            } else {
+                showFieldSuccess('email');
+            }
+        }
+        
+        function validatePasswordField() {
+            const password = document.getElementById('password').value;
+            
+            if (!password) {
+                return; // Don't show error for empty field on blur
+            }
+            
+            if (password.length < 3) {
+                showFieldError('password', 'Password must be at least 3 characters long');
+            } else {
+                showFieldSuccess('password');
+            }
+        }
+        
+        function validateMessageInput() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            
+            if (message.length > 1000) {
+                showFieldError('messageInput', 'Message is too long. Please keep it under 1000 characters.');
+            } else if (message.length > 0) {
+                clearValidationState('messageInput');
+            }
+        }
+        
+        // Authentication Logic
+        function handleDemoCredentials() {
+            document.getElementById('email').value = 'demo@healthcare.com';
+            document.getElementById('password').value = 'demo123';
+            hideError('loginError');
+            hideError('loginSuccess');
+            
+            // Clear any validation states
+            clearValidationState('email');
+            clearValidationState('password');
+        }
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // Clear previous errors and validation states
+            hideError('loginError');
+            hideError('loginSuccess');
+            clearValidationState('email');
+            clearValidationState('password');
+            
+            // Client-side validation
+            let hasErrors = false;
+            
+            if (!email) {
+                showFieldError('email', 'Email address is required');
+                hasErrors = true;
+            } else if (!validateEmail(email)) {
+                showFieldError('email', 'Please enter a valid email address');
+                hasErrors = true;
+            }
+            
+            if (!password) {
+                showFieldError('password', 'Password is required');
+                hasErrors = true;
+            } else if (password.length < 3) {
+                showFieldError('password', 'Password must be at least 3 characters long');
+                hasErrors = true;
+            }
+            
+            if (hasErrors) {
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Signing In...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Login successful
+                    authToken = data.token;
+                    showSuccess('loginSuccess', 'Login successful! Redirecting to chat...');
+                    
+                    // Delay transition to show success message
+                    setTimeout(() => {
+                        showChatView();
+                    }, 1000);
+                } else {
+                    // Login failed - show specific error message
+                    let errorMessage = data.detail || 'Login failed. Please try again.';
+                    
+                    if (response.status === 401) {
+                        errorMessage = 'Invalid email or password. Please check your credentials.';
+                    } else if (response.status === 400) {
+                        errorMessage = data.detail || 'Please check your input and try again.';
+                    } else if (response.status >= 500) {
+                        errorMessage = 'Server error. Please try again in a moment.';
+                    }
+                    
+                    showError('loginError', errorMessage);
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // Provide specific error messages based on error type
+                let errorMessage = 'Network error. Please check your connection and try again.';
+                
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    errorMessage = 'Unable to connect to the server. Please check your internet connection.';
+                } else if (error.name === 'AbortError') {
+                    errorMessage = 'Request timed out. Please try again.';
+                }
+                
+                showError('loginError', errorMessage);
+            } finally {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        async function handleLogout() {
+            try {
+                if (authToken) {
+                    await fetch('/api/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(authToken)
+                    });
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                authToken = null;
+                clearChat();
+                showLoginView();
+            }
+        }
+        
+        // Chat Message Handling
+        async function handleChatMessage(event) {
+            event.preventDefault();
+            
+            if (isProcessing) {
+                showChatError('Please wait for the current message to be processed.');
+                return;
+            }
+            
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            // Clear any previous chat errors
+            hideError('chatError');
+            clearValidationState('messageInput');
+            
+            // Client-side validation
+            if (!message) {
+                showFieldError('messageInput', 'Please enter a message before sending.');
+                return;
+            }
+            
+            if (message.length > 1000) {
+                showFieldError('messageInput', 'Message is too long. Please keep it under 1000 characters.');
+                return;
+            }
+            
+            if (message.length < 1) {
+                showFieldError('messageInput', 'Message must contain at least one character.');
+                return;
+            }
+            
+            // Clear input and add user message to chat
+            messageInput.value = '';
+            updateCharCount();
+            addMessageToChat(message, 'user');
+            
+            // Show thinking indicator and disable send button
+            showThinkingIndicator();
+            isProcessing = true;
+            const sendButton = document.getElementById('sendButton');
+            const originalButtonText = sendButton.innerHTML;
+            sendButton.innerHTML = '<i class="bi bi-hourglass-split"></i><span class="d-none d-sm-inline ms-1">Sending...</span>';
+            sendButton.disabled = true;
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        token: authToken
+                    }),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Add AI response to chat
+                    addMessageToChat(data.reply, 'ai');
+                } else {
+                    // Handle API errors with specific messages
+                    let errorMessage = 'Sorry, I encountered an error processing your request.';
+                    
+                    if (response.status === 401) {
+                        errorMessage = 'Your session has expired. Please log in again.';
+                        addMessageToChat(errorMessage, 'ai', true);
+                        setTimeout(() => {
+                            handleLogout();
+                        }, 3000);
+                        return;
+                    } else if (response.status === 400) {
+                        errorMessage = data.detail || 'Please check your message and try again.';
+                    } else if (response.status === 429) {
+                        errorMessage = 'Too many requests. Please wait a moment before sending another message.';
+                    } else if (response.status >= 500) {
+                        errorMessage = 'Server error. Please try again in a moment.';
+                    } else if (data.detail) {
+                        errorMessage = data.detail;
+                    }
+                    
+                    addMessageToChat(errorMessage, 'ai', true);
+                }
+                
+            } catch (error) {
+                console.error('Chat error:', error);
+                
+                let errorMessage = 'Sorry, I\'m having trouble connecting right now. Please try again in a moment.';
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Request timed out. Please try again with a shorter message.';
+                } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    errorMessage = 'Unable to connect to the server. Please check your internet connection.';
+                } else if (error.message.includes('network')) {
+                    errorMessage = 'Network error. Please check your connection and try again.';
+                }
+                
+                addMessageToChat(errorMessage, 'ai', true);
+            } finally {
+                hideThinkingIndicator();
+                isProcessing = false;
+                
+                // Restore send button
+                sendButton.innerHTML = originalButtonText;
+                sendButton.disabled = false;
+                
+                messageInput.focus(); // Return focus to input
+            }
+        }
+        
+        // UI Update Functions
+        function addMessageToChat(message, sender, isError = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            const timestamp = formatTime();
+            
+            let className = `message-bubble ${sender}-message`;
+            if (isError && sender === 'ai') {
+                className += ' border-danger';
+            }
+            
+            messageDiv.className = className;
+            // messageDiv.innerHTML = `
+            //    <div>${escapeHtml(message)}</div>
+            //    <div class="message-time">${timestamp}</div>
+            //`;
+
+            messageDiv.innerHTML = `
+            <div>${marked.parse(message)}</div>
+            <div class="message-time">${timestamp}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+            // marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+        }
+        
+        function showThinkingIndicator() {
+            document.getElementById('thinkingIndicator').style.display = 'block';
+            scrollToBottom();
+        }
+        
+        function hideThinkingIndicator() {
+            document.getElementById('thinkingIndicator').style.display = 'none';
+        }
+        
+        // This function is now defined in setupMobileOptimizations section
+        
+        function formatTime() {
+            return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // View Management
+        function showLoginView() {
+            document.getElementById('loginView').classList.remove('hidden');
+            document.getElementById('chatView').classList.add('hidden');
+            
+            // Clear form and validation states
+            document.getElementById('loginForm').reset();
+            hideError('loginError');
+            hideError('loginSuccess');
+            clearValidationState('email');
+            clearValidationState('password');
+            
+            // Focus on email input
+            setTimeout(() => {
+                document.getElementById('email').focus();
+            }, 100);
+        }
+        
+        function showChatView() {
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('chatView').classList.remove('hidden');
+            
+            // Clear any chat errors and reset input
+            hideError('chatError');
+            clearValidationState('messageInput');
+            updateCharCount();
+            
+            // Focus on message input
+            setTimeout(() => {
+                document.getElementById('messageInput').focus();
+                scrollToBottom();
+            }, 100);
+        }
+        
+        function clearChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            // Keep only the welcome message
+            const welcomeMessage = chatMessages.querySelector('.welcome-message');
+            chatMessages.innerHTML = '';
+            if (welcomeMessage) {
+                chatMessages.appendChild(welcomeMessage);
+            }
+        }
+        
+        // Error Handling and Validation
+        function showError(errorElementId, message) {
+            const errorElement = document.getElementById(errorElementId);
+            const errorMessageElement = document.getElementById(errorElementId + 'Message');
+            
+            if (errorMessageElement) {
+                errorMessageElement.textContent = message;
+            }
+            
+            errorElement.classList.remove('hidden');
+            
+            // Auto-hide error after 8 seconds for better UX
+            setTimeout(() => {
+                hideError(errorElementId);
+            }, 8000);
+        }
+        
+        function showSuccess(successElementId, message) {
+            const successElement = document.getElementById(successElementId);
+            const successMessageElement = document.getElementById(successElementId + 'Message');
+            
+            if (successMessageElement) {
+                successMessageElement.textContent = message;
+            }
+            
+            successElement.classList.remove('hidden');
+            
+            // Auto-hide success after 3 seconds
+            setTimeout(() => {
+                hideError(successElementId);
+            }, 3000);
+        }
+        
+        function hideError(errorElementId) {
+            const errorElement = document.getElementById(errorElementId);
+            if (errorElement) {
+                errorElement.classList.add('hidden');
+            }
+        }
+        
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const feedback = document.getElementById(fieldId + 'Feedback') || 
+                           field.parentNode.querySelector('.invalid-feedback');
+            
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            
+            if (feedback) {
+                feedback.textContent = message;
+                feedback.style.display = 'block';
+            }
+            
+            // Focus on the field with error
+            field.focus();
+        }
+        
+        function showFieldSuccess(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            
+            const feedback = document.getElementById(fieldId + 'Feedback') || 
+                           field.parentNode.querySelector('.invalid-feedback');
+            if (feedback) {
+                feedback.style.display = 'none';
+            }
+        }
+        
+        function clearValidationState(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.classList.remove('is-invalid', 'is-valid');
+                
+                const feedback = document.getElementById(fieldId + 'Feedback') || 
+                               field.parentNode.querySelector('.invalid-feedback');
+                if (feedback) {
+                    feedback.style.display = 'none';
+                }
+            }
+        }
+        
+        function showChatError(message) {
+            showError('chatError', message);
+        }
+        
+        // Utility Functions
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // Scroll to bottom function
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Mobile optimizations
+        function setupMobileOptimizations() {
+            // Set CSS custom property for viewport height (fixes mobile browser issues)
+            function setVH() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setVH();
+            window.addEventListener('resize', setVH);
+            window.addEventListener('orientationchange', setVH);
+            
+            // Prevent zoom on input focus for iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                const inputs = document.querySelectorAll('input[type="email"], input[type="password"], input[type="text"]');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function() {
+                        input.style.fontSize = '16px';
+                    });
+                    input.addEventListener('blur', function() {
+                        input.style.fontSize = '';
+                    });
+                });
+            }
+        }
+        
+        // Network status monitoring
+        function setupNetworkMonitoring() {
+            window.addEventListener('online', function() {
+                hideError('chatError');
+                console.log('Network connection restored');
+            });
+            
+            window.addEventListener('offline', function() {
+                showChatError('You appear to be offline. Please check your internet connection.');
+                console.log('Network connection lost');
+            });
+        }
+        
+        // Initialize network monitoring
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNetworkMonitoring();
+        });
+        
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', function(event) {
+            // Handle navigation if needed
+            if (authToken) {
+                showChatView();
+            } else {
+                showLoginView();
+            }
+        });ner('popstate', function(event) {
+            if (authToken) {
+                showChatView();
+            } else {
+                showLoginView();
+            }
+        });
+        
+        // Mobile-specific optimizations
+        function setupMobileOptimizations() {
+            // Prevent zoom on input focus for iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                const inputs = document.querySelectorAll('input[type="email"], input[type="password"], input[type="text"]');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function() {
+                        this.style.fontSize = '16px';
+                    });
+                    input.addEventListener('blur', function() {
+                        this.style.fontSize = '';
+                    });
+                });
+            }
+            
+            // Handle viewport height changes on mobile (keyboard appearance)
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            window.addEventListener('resize', () => {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                
+                // Scroll to bottom when keyboard appears/disappears
+                if (authToken && document.getElementById('chatView').classList.contains('hidden') === false) {
+                    setTimeout(scrollToBottom, 100);
+                }
+            });
+            
+            // Improve touch scrolling on iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                document.getElementById('chatMessages').style.webkitOverflowScrolling = 'touch';
+            }
+            
+            // Handle orientation changes
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    if (authToken) {
+                        scrollToBottom();
+                    }
+                }, 500);
+            });
+            
+            // Prevent double-tap zoom on buttons
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
+        
+        // Enhanced scroll to bottom for mobile
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                // Use smooth scrolling on desktop, instant on mobile for better performance
+                const isMobile = window.innerWidth <= 768;
+                chatMessages.scrollTo({
+                    top: chatMessages.scrollHeight,
+                    behavior: isMobile ? 'auto' : 'smooth'
+                });
+            }
+        }
+        
+        // Handle page visibility changes (pause/resume functionality)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && authToken) {
+                // Page became visible and user is logged in
+                // Only focus on desktop to avoid keyboard issues on mobile
+                if (window.innerWidth > 768) {
+                    document.getElementById('messageInput').focus();
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+</body>
+</html>

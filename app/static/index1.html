@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- For PNG format -->
+    <!-- <link rel="icon" href="img/logo.png" type="image/png"> -->
+    <link rel="stylesheet" href="main.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+       <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg nav-back fixed-top" id="mainNav"> 
+        
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+            <!-- <i class="bi bi-robot text-primary me-2" style="font-size: 1.2rem;"></i> -->
+                 <i class="bi bi-heart-pulse healthcare-icon"></i>
+                <b><span>Smart Health Advisor bot</span></b>
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button"
+            data-toggle="collapse" data-target="#navbarResponsive" 
+            aria-controls="navbarResponsive" aria-expanded="false" 
+            aria-label="Toggle navigation">
+                <i class="fas fa-syringe fa-2x"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPatient" role="button" aria-haspopup="true" aria-expanded="false">
+                            Patient
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPatient">
+                            <a class="dropdown-item" href="patient_auth/login.html">Login</a>
+                            <a class="dropdown-item" href="patient_auth/signup.html">Sign Up</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDoctor" role="button" aria-haspopup="true" aria-expanded="false">
+                            Doctor
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownDoctor">
+                            <a class="dropdown-item" href="#">Login</a>
+                            <a class="dropdown-item" href="#">Sign Up</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="Appoint_Manage/admin-login.html">Admin</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="team.html">Our Team</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+   
+    <!-- End Header -->    
+
+    <div id="chatbot-container">
+        <div id="chatbot-icon" onclick="toggleIframe()">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div id="chatbot-iframe" class="hidden">
+            <button id="close-btn" onclick="closeIframe()">
+                <i class="fas fa-times"></i>
+            </button>
+            <iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/74caca84-8445-4822-8771-140fe03da8f0"></iframe>
+        </div>
+    </div>
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container text-center position-relative">
+            <h1>Accessible Healthcare, Anytime, Anywhere</h1>
+            <h2>Your Trusted Partner in Health Management</h2>
+
+            <a href="#services" class="main-btn">Get Started</a>
+        </div>
+    </section>
+    <!-- End Hero -->
+<!-- What we offer section -->
+<section class="we-offer-area text-center bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="site-heading text-center" id="services">
+                    <h2>What we <span>Offer</span></h2>
+                    <h4>Seamless, Secure, and Smart: Revolutionizing Healthcare</h4>
+                </div>
+            </div>
+        </div>
+            <div class="row our-offer-items less-carousel justify-content-center">
+                <!-- Single Item -->
+                <div class="col-md-4 col-sm-6 equal-height">
+                    <a class="offer-link" href="http://localhost:4000" target="" rel="noopener noreferrer">
+                        <div class="item">
+                            <i class="fas fa-robot"></i>
+                            <h4>ChatBot AI Integration</h4>
+                            <p>
+                                Empowering your interactions with intelligent, automated responses.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <!-- End Single Item -->
+            </div>
+    </div>
+</section>
+<!-- what we offer end -->
+    <!-- Start Appointment Section -->
+    <div class="container mt-4 p-4">
+        <h2 class="text-center my-4"><b>Book Appointment</b></h2>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="appointment-form">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Patient Name</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <input type="text" id="patient-name" class="form-control" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Contact</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <input type="tel" id="contact" class="form-control" placeholder="+91 0123456789" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Date</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Time</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <select id="time" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Symptoms</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <textarea id="symptoms" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-lg-4">Clinics</label>
+                        <div class="col-sm-8 col-lg-8">
+                            <select name="doctors" id="clinics">Clinics
+                                <option value="Dr. Nitin Tiwari">Dr. Nitin Tiwari</option>
+                                <option value="Dr. Kadoo Priyanka Vijay">Dr. Kadoo Priyanka Vijay</option>
+                                <option value="Dr. Piyush Marudwar">Dr. Piyush Marudwar</option>
+                                <option value="Dr. Nikhil Arvind Dongre">Dr. Nikhil Arvind Dongre</option>
+                                <option value="Dr. Shashwat Magarkar">Dr. Shashwat Magarkar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-end">
+                        <div class="col-sm-5">
+                            <button type="submit" class="btn btn-form">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <img src="img/appoint.png" alt="Appointment Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            dateInput.addEventListener('change', populateTimeOptions);
+
+            function populateTimeOptions() {
+                const timeInput = document.getElementById('time');
+                timeInput.innerHTML = '';
+
+                const selectedDate = new Date(dateInput.value);
+                const now = new Date();
+
+                let startHour, startMinute;
+
+                if (selectedDate.toDateString() === now.toDateString()) {
+                    startHour = now.getHours();
+                    startMinute = now.getMinutes();
+
+                    if (startMinute > 0 && startMinute <= 30) {
+                        startMinute = 30;
+                    } else if (startMinute > 30) {
+                        startMinute = 0;
+                        startHour += 1;
+                    }
+                } else {
+                    startHour = 0;
+                    startMinute = 0;
+                }
+
+                for (let hour = startHour; hour < 24; hour++) {
+                    for (let minutes = (hour === startHour ? startMinute : 0); minutes < 60; minutes += 30) {
+                        const option = document.createElement('option');
+                        const period = hour < 12 ? 'AM' : 'PM';
+                        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+                        const formattedHour = hour12.toString().padStart(2, '0');
+                        const formattedMinutes = minutes.toString().padStart(2, '0');
+                        option.value = `${formattedHour}:${formattedMinutes} ${period}`;
+                        option.textContent = `${formattedHour}:${formattedMinutes} ${period}`;
+                        timeInput.appendChild(option);
+                    }
+                }
+            }
+
+            populateTimeOptions();
+        });
+
+        document.getElementById('appointment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const patientName = document.getElementById('patient-name').value;
+            const contact = document.getElementById('contact').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const symptoms = document.getElementById('symptoms').value;
+            const clinics = document.getElementById('clinics').value;
+
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const conflictingAppointment = appointments.find(appointment => appointment.date === date && appointment.time === time);
+
+            if (conflictingAppointment) {
+                alert('This slot is not available.');
+                return;
+            }
+
+            const appointment = { id: Date.now(), patientName, contact, date, time, symptoms, clinics};
+
+            appointments.push(appointment);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+
+            document.getElementById('appointment-form').reset();
+            alert('Your appointment has been successfully booked.');
+            document.getElementById('appointment-form').reset();
+        });
+    </script>
+<!-- End Appointment Section -->
+
+<!-- Doctor Section -->
+<div class="available-doctors-section">
+    <b><h2>Meet Our Doctors</h2></b>
+    <p class="tagline">Expert care from trusted professionals dedicated to your health.</p>
+    <div class="doctor-cards-container">
+      <!-- Doctor 1 -->
+      <div class="doctor-card">
+        <img src="img/doc1.webp" alt="Doctor Photo" class="doctor-photo">
+        <h3>Dr. Nitin Tiwari</h3>
+        <p>Cardiologist</p>
+        <div class="availability-indicator available">Available</div>
+        <button class="more-info-btn">More Info</button>
+      </div>
+      <!-- Doctor 2 -->
+      <div class="doctor-card">
+        <img src="img/doc2.webp" alt="Doctor Photo" class="doctor-photo">
+        <h3>Dr. Kadoo Priyanka Vijay</h3>
+        <p>Gynecologist</p>
+        <div class="availability-indicator busy">Busy</div>
+        <button class="more-info-btn">More Info</button>
+      </div>
+      <!-- Doctor 3 -->
+      <div class="doctor-card">
+        <img src="img/doc3.webp" alt="Doctor Photo" class="doctor-photo">
+        <h3>Dr. Piyush Marudwar</h3>
+        <p>Gastroenterologist</p>
+        <div class="availability-indicator available">Available</div>
+        <button class="more-info-btn">More Info</button>
+      </div>
+      <!-- Doctor 4 -->
+      <div class="doctor-card">
+        <img src="img/doc4.webp" alt="Doctor Photo" class="doctor-photo">
+        <h3>Dr. Nikhil Arvind Dongre</h3>
+        <p>Neurologist</p>
+        <div class="availability-indicator available">Available</div>
+        <button class="more-info-btn">More Info</button>
+      </div>
+      <!-- Doctor 5 -->
+      <div class="doctor-card">
+        <img src="img/doc5.webp" alt="Doctor Photo" class="doctor-photo">
+        <h3>Dr. Shashwat Magarkar</h3>
+        <p>Dentist</p>
+        <div class="availability-indicator busy">Busy</div>
+        <button class="more-info-btn">More Info</button>
+      </div>
+    </div>
+  </div>
+<!-- Doctor section End   -->
+    <!-- Footer -->
+    <footer class="footer py-4 mt-5">
+        <div class="container">
+            <!-- <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left">Copyright © HealthBlock AppointAI <script>document.write(new Date().getFullYear())</script> </div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-back btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-back btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-back btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div> -->
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isOpen = dropdownMenu.classList.contains('show');
+
+                    // Close all dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+
+                    // Toggle the clicked dropdown
+                    if (!isOpen) {
+                        dropdownMenu.classList.add('show');
+                    }
+                });
+            });
+
+            // Close dropdowns if clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function toggleIframe() {
+    const iframe = document.getElementById('chatbot-iframe');
+    const isVisible = iframe.style.display === 'block';
+    
+    if (isVisible) {
+        iframe.style.display = 'none';
+    } else {
+        iframe.style.display = 'block';
+    }
+}
+
+function closeIframe() {
+    const iframe = document.getElementById('chatbot-iframe');
+    iframe.style.display = 'none';
+}
+
+    </script>
+
+</body>
+</html>

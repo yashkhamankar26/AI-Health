@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - View Appointments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;700&display=swap" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- <link rel="icon" href="../img/logo.png" type="image/png"> -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #e2e2e2, #ffffff);
+            font-family: 'Exo', sans-serif;
+        }
+        /* Sidebar */
+.sidebar {
+    background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
+    color: #ffffff;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    transition: all 0.3s ease;
+}
+.sidebar:hover {
+    width: 270px; /* Expand width on hover */
+}
+.sidebar h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+.sidebar a {
+    color: #ffffff;
+    padding: 15px 20px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+.sidebar a:hover {
+    background-color: #495057;
+    padding-left: 30px; /* Add padding on hover for a sliding effect */
+}
+.sidebar a .fa {
+    margin-right: 20px;
+    font-size: 18px;
+}
+
+/* Adjust the main content margin on hover */
+.sidebar:hover + .main-content {
+    margin-left: 270px;
+}
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .card {
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .list-group-item.checked {
+            background-color: #d4edda; /* Light green background */
+            color: #155724; /* Dark green text */
+        }
+        .list-group-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .chart-container {
+            position: relative;
+            height: 450px; /* Adjust height as needed */
+            width: 100%;
+        }
+        .chart-container canvas {
+            height: 100% !important;
+            width: 100% !important;
+        }
+        .pie-chart {
+            border-radius: 50%; /* Ensure the chart is round */
+        }
+        .search-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            width: 300px;
+        }
+        .kpi-card {
+            text-align: center;
+            padding: 20px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            font-size: 18px;
+            color: #333;
+        }
+        .kpi-card .kpi-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .kpi-card .kpi-icon {
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .kpi-card .kpi-title {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        
+        <h3> <i class="bi bi-heart-pulse healthcare-icon"></i><b>&nbsp;Admin Panel</b></h3>
+        <a href="#"><i class="fas fa-tachometer-alt"></i> &nbsp;Dashboard</a>
+        <a href="#"><i class="fas fa-calendar-alt"></i> &nbsp;Appointments</a>
+        <a href="#"><i class="fas fa-cogs"></i> &nbsp;Settings</a>
+        <a href="../index.html"><i class="fas fa-sign-out-alt"></i> &nbsp;Logout</a>
+        <!-- <a href="https://pushdatainipfs.portal.massive.io/" target="_blank" style="font-size: 2em; margin-top: 20px; display: block;">
+            <i class="fas fa-cubes"></i> Blockchain Storage
+        </a> -->
+    </div>
+    
+
+    <div class="main-content">
+        <h2 class="text-center my-4"><b>HealthBlock Appointments</b></h2>
+        
+        <!-- KPI Cards -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <div class="kpi-title">Total Patients Registered</div>
+                    <div id="total-patients" class="kpi-value">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="kpi-title">Registered Doctors</div>
+                    <div id="total-doctors" class="kpi-value">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="kpi-title">Appointments Today</div>
+                    <div id="appointments-today" class="kpi-value">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="kpi-title">Pending Appointments</div>
+                    <div id="pending-appointments" class="kpi-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Appointments Overview
+                    </div>
+                    <div class="card-body chart-container">
+                        <canvas id="appointments-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Checked vs Unchecked Appointments
+                        <button id="refresh-pie-chart" class="btn btn-primary btn-sm float-right">Refresh</button>
+                    </div>
+                    <div class="card-body chart-container">
+                        <canvas id="checked-unchecked-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Appointment List Section -->
+        <div class="search-container">
+            <input type="text" id="search-input" class="form-control search-input" placeholder="Search appointments...">
+        </div>
+        <h3 class="my-4" id="applist">Appointment List</h3>
+        <ul id="appointments-list" class="list-group mb-4"></ul>
+
+        <button id="download-all" class="btn btn-secondary mt-4">Download All Data</button>
+        <button id="download-date-wise" class="btn btn-secondary mt-4">Download Date-wise Data</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            displayAppointments();
+            displayStats();
+            drawCharts();
+            drawPieChart();
+        });
+
+        function displayAppointments() {
+    const appointmentsList = document.getElementById('appointments-list');
+    appointmentsList.innerHTML = '';
+
+    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    appointments.forEach(appointment => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkbox-item';
+        checkbox.dataset.id = appointment.id;
+        checkbox.checked = appointment.checked || false; // Set checkbox state based on saved data
+
+        // Add the checkbox to the list item
+        li.appendChild(checkbox);
+
+        // Add text with bold ID
+        li.appendChild(document.createTextNode('ID: '));
+        const idSpan = document.createElement('strong'); // or 'b'
+        idSpan.textContent = appointment.id;
+        li.appendChild(idSpan);
+        li.appendChild(document.createTextNode(` - Patient Name: ${appointment.patientName}, Contact: ${appointment.contact}, Date: ${appointment.date}, Time: ${appointment.time}, Symptoms: ${appointment.symptoms}, Doctor: ${appointment.clinics}`));
+
+        // Add the delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'btn btn-danger btn-sm float-right';
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+            deleteAppointment(appointment.id);
+        };
+        li.appendChild(deleteButton);
+
+        // Add the list item to the list
+        appointmentsList.appendChild(li);
+
+        // Add click event to checkbox
+        checkbox.addEventListener('click', function() {
+            li.classList.toggle('checked', checkbox.checked);
+            appointment.checked = checkbox.checked; // Update checked state in data
+            localStorage.setItem('appointments', JSON.stringify(appointments)); // Save updated data
+            drawPieChart(); // Redraw the pie chart when checkbox state changes
+        });
+    });
+}
+
+
+        function displayStats() {
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const totalPatients = appointments.length;
+
+            // Example values for demonstration
+            const totalDoctors = 5; // Replace with actual data
+            const appointmentsToday = appointments.filter(appointment => new Date(appointment.date).toDateString() === new Date().toDateString()).length;
+            const pendingAppointments = appointments.filter(appointment => !appointment.checked).length;
+
+            document.getElementById('total-patients').textContent = totalPatients;
+            document.getElementById('total-doctors').textContent = totalDoctors;
+            document.getElementById('appointments-today').textContent = appointmentsToday;
+            document.getElementById('pending-appointments').textContent = pendingAppointments;
+        }
+
+        function drawCharts() {
+            const ctx = document.getElementById('appointments-chart').getContext('2d');
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            
+            const labels = [];
+            const data = [];
+            
+            appointments.forEach(appointment => {
+                const date = appointment.date;
+                if (!labels.includes(date)) {
+                    labels.push(date);
+                    data.push(1);
+                } else {
+                    data[labels.indexOf(date)] += 1;
+                }
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Appointments per Day',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function drawPieChart() {
+            const ctx = document.getElementById('checked-unchecked-chart').getContext('2d');
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+            let checkedCount = 0;
+            let uncheckedCount = 0;
+
+            appointments.forEach(appointment => {
+                if (appointment.checked) {
+                    checkedCount++;
+                } else {
+                    uncheckedCount++;
+                }
+            });
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Checked', 'Unchecked'],
+                    datasets: [{
+                        data: [checkedCount, uncheckedCount],
+                        backgroundColor: ['#28a745', '#dc3545'], // Green for checked, red for unchecked
+                        borderColor: ['#ffffff', '#ffffff'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        function deleteAppointment(id) {
+            let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            appointments = appointments.filter(appointment => appointment.id !== id);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            displayAppointments();
+            displayStats();
+            drawCharts();
+            drawPieChart(); // Redraw the pie chart after deletion
+        }
+
+        document.getElementById('refresh-pie-chart').addEventListener('click', function() {
+    location.reload(); // Refresh the page
+});
+
+        document.getElementById('download-all').addEventListener('click', function() {
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            downloadCSV(appointments, 'all_appointments.csv');
+        });
+
+        document.getElementById('download-date-wise').addEventListener('click', function() {
+            const selectedDate = prompt('Enter date (YYYY-MM-DD):');
+            if (!selectedDate) return;
+
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const filteredAppointments = appointments.filter(appointment => appointment.date === selectedDate);
+
+            if (filteredAppointments.length === 0) {
+                alert('No appointments found for the selected date.');
+            } else {
+                downloadCSV(filteredAppointments, `appointments_${selectedDate}.csv`);
+            }
+        });
+
+        function downloadCSV(data, filename) {
+            if (data.length === 0) {
+                alert('No data to download.');
+                return;
+            }
+
+            const csvRows = [];
+            const headers = Object.keys(data[0]);
+            csvRows.push(headers.join(','));
+
+            for (const row of data) {
+                const values = headers.map(header => JSON.stringify(row[header], (key, value) => value === null ? '' : value));
+                csvRows.push(values.join(','));
+            }
+
+            const csvString = csvRows.join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', filename);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const items = document.querySelectorAll('#appointments-list .list-group-item');
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
